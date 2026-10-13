@@ -1,0 +1,50 @@
+{
+    "status": "success",
+    "data": {
+        "resultType": "vector",
+        "result": [
+            {
+                "metric": {
+                    "__name__": "app_requests_total",
+                    "endpoint": "/api/notes",
+                    "instance": "notes-backend",
+                    "job": "flask-app",
+                    "method": "GET",
+                    "status": "200"
+                },
+                "value": [
+                    1791930827.611,
+                    "245"
+                ]
+            },
+            {
+                "metric": {
+                    "__name__": "app_requests_total",
+                    "endpoint": "/api/notes",
+                    "instance": "notes-backend",
+                    "job": "flask-app",
+                    "method": "POST",
+                    "status": "201"
+                },
+                "value": [
+                    1791930827.611,
+                    "24"
+                ]
+            },
+            {
+                "metric": {
+                    "__name__": "app_requests_total",
+                    "endpoint": "/health",
+                    "instance": "notes-backend",
+                    "job": "flask-app",
+                    "method": "GET",
+                    "status": "200"
+                },
+                "value": [
+                    1791930827.611,
+                    "240"
+                ]
+            }
+        ]
+    }
+}

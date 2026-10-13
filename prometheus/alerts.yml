@@ -1,0 +1,43 @@
+groups:
+  - name: app-alerts
+    interval: 30s
+    rules:
+      - alert: AppDown
+        expr: up{job="flask-app"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "App caida"
+          description: "El backend Flask no responde desde hace mas de 1 minuto."
+      - alert: HighCPU
+        expr: |
+          100 - (avg by(instance)(rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "CPU alta en {{ $labels.instance }}"
+          description: "Uso de CPU: {{ $value | printf \"%.1f\" }}%"
+      - alert: HighErrorRate
+        expr: |
+          rate(app_requests_total{status=~"5.."}[5m])
+          /
+          rate(app_requests_total[5m]) > 0.05
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Tasa de errores alta"
+          description: "Mas del 5% de requests estan fallando."
+      - alert: DiskSpaceLow
+        expr: |
+          (node_filesystem_size_bytes{mountpoint="/"} -
+           node_filesystem_free_bytes{mountpoint="/"})
+          / node_filesystem_size_bytes{mountpoint="/"} > 0.85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Disco casi lleno"
+          description: "Uso de disco: {{ $value | printf \"%.1f\" }}%"
